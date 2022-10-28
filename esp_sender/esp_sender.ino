@@ -1,23 +1,21 @@
 #include <esp_now.h>
 #include "WiFi.h"
 
-// Variables for test data
-int int_value;
-float float_value;
-bool bool_value = true;
-
-uint8_t broadcastAddress[] = {0x84, 0x0d, 0x8e, 0x2e, 0x04, 0xf4};
+// MAC: 84:f7:03:a9:4c:98
+uint8_t broadcastAddress[] = {0x84, 0xf7, 0x03, 0xa9, 0x4c, 0x98};
 
 typedef struct struct_message {
 	int b;
 	float c;
 } struct_message;
 
+// instance 
 struct_message myData;
 
-
+// 
 esp_now_peer_info_t peerInfo;
 
+// callback function 
 void OnDataSent(const uint8_t *mac_addr, esp_now_send_status_t status) {
 	Serial.print("\r\nLast Packet Send Status:\t");
 	Serial.println(status == ESP_NOW_SEND_SUCCESS ? "Delivery Success" :
@@ -30,7 +28,9 @@ float floatMap(float x, float in_min, float in_max, float out_min, float
 }
 
 void setup() {
+
 	Serial.begin(115200);
+
 	WiFi.mode(WIFI_STA);
 	
 	if (esp_now_init() != ESP_OK) {
@@ -52,13 +52,10 @@ void setup() {
 
 void loop() {
 	int analogValue = analogRead(0);
-	float voltage = floatMap(analogValue, 0, 4095, 0, 3.3);
-	//bool_value = !bool_value;
+ 	float voltage = floatMap(analogValue, 0, 4095, 0, 3.3);
 
-	// strcpy(myData.a, "welcome to the earth");
-	myData.b = analogValue;
+	myData.b = 666;
 	myData.c = voltage;
-	//myData.d = bool_value;
 
 	esp_err_t result = esp_now_send(broadcastAddress, (uint8_t *) &myData, sizeof(myData));
 
@@ -68,5 +65,5 @@ void loop() {
 	else {
 		Serial.println("Sending error");
 	}
-	//delay(2000);
+	// delay(2000);
 }
