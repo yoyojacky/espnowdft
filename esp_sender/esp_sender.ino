@@ -2,7 +2,7 @@
 #include "WiFi.h"
 
 // MAC: 84:f7:03:a9:4c:98
-uint8_t broadcastAddress[] = {0x84, 0xf7, 0x03, 0xa9, 0x4c, 0x98};
+uint8_t broadcastAddress[] = {0x84, 0xf7, 0x03, 0xa9, 0x46, 0x40};
 
 typedef struct struct_message {
 	int b;
